@@ -21,10 +21,7 @@ Welcome to the official CollegeTips photo gallery – a fun, interactive space t
 - Lightbox.js / custom modal for fullscreen view
 - [Optional] Animate.css / GSAP for animations
 
-## 🎥 Demo
 
-[🔗 Live Demo](https://yourusername.github.io/collegetips-photo-gallery/)  
-[📽️ Watch Demo Video](#link-to-demo-video)
 
 ## 🧠 Design Decisions
 
