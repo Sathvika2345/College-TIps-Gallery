@@ -22,7 +22,8 @@ Welcome to the official CollegeTips photo gallery – a fun, interactive space t
 - Unsplash for image assets
 -CSS Keyframe Animations
 
-
+Demo picture
+url:https://drive.google.com/file/d/1UaYLWy28dHgjg7L27qcps8vT1O94JtQs/view?usp=sharing
 
 ## 🧠 Design Decisions
 
