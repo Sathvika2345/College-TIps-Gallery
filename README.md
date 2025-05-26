@@ -16,10 +16,11 @@ Welcome to the official CollegeTips photo gallery – a fun, interactive space t
 
 ## 🛠️ Tools Used
 
-- HTML, CSS, JavaScript (or React if you used it)
-- CSS Grid / Flexbox for layout
-- Lightbox.js / custom modal for fullscreen view
-- [Optional] Animate.css / GSAP for animations
+- React + TypeScript
+- Tailwind CSS
+- Lucide Icons
+- Unsplash for image assets
+-CSS Keyframe Animations
 
 
 
