@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CollegeTips Photo Gallery</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    margin: 0;
+    padding: 20px;
+    color: #333;
+  }
+  .gallery-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    padding: 30px 40px 40px;
+  }
+  h1 {
+    text-align: center;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    margin-bottom: 25px;
+    color: #0d3b66;
+  }
+  .filter-buttons {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .filter-button {
+    background-color: #0d3b66;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 25px;
+    margin: 0 10px 12px 10px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+    user-select: none;
+    box-shadow: 0 4px 8px rgba(13,59,102,0.3);
+  }
+  .filter-button:hover, .filter-button.active {
+    background-color: #faa916;
+    color: #0d3b66;
+    box-shadow: 0 6px 12px rgba(250,169,22,0.5);
+  }
+  .gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.12);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 1 1 200px;
+    max-width: 240px;
+  }
+  .gallery-item img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+    border-radius: 15px;
+  }
+  .gallery-item:hover {
+    transform: scale(1.08);
+    box-shadow: 0 12px 35px rgba(250,169,22,0.5);
+  }
+  .gallery-item:hover img {
+    transform: scale(1.15);
+  }
+  /* Caption overlay on hover */
+  .gallery-item::after {
+    content: attr(data-caption);
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    padding: 6px 10px;
+    background: rgba(250, 169, 22, 0.85);
+    color: #0d3b66;
+    font-weight: 700;
+    font-size: 14px;
+    border-radius: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    text-align: center;
+  }
+  .gallery-item:hover::after {
+    opacity: 1;
+  }
+  /* Modal Styles */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0; top: 0;
+    width: 100vw; height: 100vh;
+    background-color: rgba(0,0,0,0.92);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-content {
+    max-width: 90%;
+    max-height: 80vh;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(250,169,22,0.8);
+    animation: zoomIn 0.4s ease forwards;
+  }
+  @keyframes zoomIn {
+    from {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  .close {
+    position: fixed;
+    top: 30px;
+    right: 35px;
+    color: #faa916;
+    font-size: 48px;
+    font-weight: 900;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.3s ease;
+  }
+  .close:hover {
+    color: #fff;
+  }
+  #caption {
+      color: #faa916;
+      text-align: center;
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+      user-select: none;
+  }
+  /* Responsive */
+  @media (max-width: 700px) {
+    .gallery-item {
+      flex: 1 1 45%;
+      max-width: 45%;
+    }
+  }
+  @media (max-width: 420px) {
+    .gallery-item {
+      flex: 1 1 90%;
+      max-width: 90%;
+    }
+    .filter-button {
+      padding: 10px 16px;
+      margin: 6px 8px;
+      font-size: 14px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="gallery-container">
+    <h1>CollegeTips Photo Gallery</h1>
+    <div class="filter-buttons" role="group" aria-label="Gallery category filters">
+      <button class="filter-button active" data-filter="all" aria-pressed="true">All</button>
+      <button class="filter-button" data-filter="team" aria-pressed="false">🤝 Team Vibes</button>
+      <button class="filter-button" data-filter="creative" aria-pressed="false">🎨 Creative Campaigns</button>
+      <button class="filter-button" data-filter="work" aria-pressed="false">🥳 Work Hard, Play Hard</button>
+      <button class="filter-button" data-filter="behind" aria-pressed="false">🎥 Behind-The-Scenes</button>
+    </div>
+    <div class="gallery" aria-live="polite" aria-atomic="true">
+      <div class="gallery-item team" data-caption="Team Vibes: Group brainstorming session">
+        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=400&q=80" alt="Team Vibes Group Brainstorming" />
+      </div>
+      <div class="gallery-item team" data-caption="Team Vibes: Celebrating success">
+        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=400&q=80" alt="Team Vibes Celebration" />
+      </div>
+      <div class="gallery-item creative" data-caption="Creative Campaigns: Brainstorming ideas">
+        <img src="https://images.unsplash.com/photo-1497493292307-31c376b6e479?auto=format&fit=crop&w=400&q=80" alt="Creative Campaigns Idea Session" />
+      </div>
+      <div class="gallery-item creative" data-caption="Creative Campaigns: Designing artwork">
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Creative Campaigns Artwork Design" />
+      </div>
+      <div class="gallery-item work" data-caption="Work Hard, Play Hard: Office fun">
+        <img src="https://images.unsplash.com/photo-1529655683826-aba9b3e77383?auto=format&fit=crop&w=400&q=80" alt="Work Hard, Play Hard Office Fun" />
+      </div>
+      <!-- Removed 6th,7th,8th,10th items -->
+      <div class="gallery-item team" data-caption="Team Vibes: Team brainstorming">
+        <img src="https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?auto=format&fit=crop&w=400&q=80" alt="Team Vibes Team Brainstorming" />
+      </div>
+      <div class="gallery-item behind" data-caption="Behind-The-Scenes: Filming session">
+        <img src="https://images.unsplash.com/photo-1468071174046-657d9d351a40?auto=format&fit=crop&w=400&q=80" alt="Behind-The-Scenes Filming Session" />
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="caption" tabindex="-1">
+    <span class="close" role="button" aria-label="Close gallery modal">&times;</span>
+    <img class="modal-content" id="img01" alt="" />
+    <div id="caption"></div>
+  </div>
+
+  <script>
+    (() => {
+      const modal = document.querySelector('.modal');
+      const modalImg = document.getElementById('img01');
+      const captionText = document.getElementById('caption');
+      const closeBtn = document.querySelector('.close');
+      const filterButtons = document.querySelectorAll('.filter-button');
+      const galleryItems = document.querySelectorAll('.gallery-item');
+
+      // Open modal on image click
+      galleryItems.forEach(item => {
+        item.addEventListener('click', () => {
+          modal.style.display = 'flex';
+          modalImg.src = item.querySelector('img').src;
+          captionText.textContent = item.getAttribute('data-caption');
+          modal.focus();
+        });
+      });
+
+      // Close modal on close button click or Esc key press
+      closeBtn.onclick = () => {
+        modal.style.display = 'none';
+        modalImg.src = '';
+        captionText.textContent = '';
+      };
+      window.addEventListener('keydown', e => {
+        if(e.key === 'Escape' && modal.style.display === 'flex') {
+          closeBtn.click();
+        }
+      });
+
+      // Filter gallery items by category
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          filterButtons.forEach(btn => {
+            btn.classList.remove('active');
+            btn.setAttribute('aria-pressed', 'false');
+          });
+          button.classList.add('active');
+          button.setAttribute('aria-pressed', 'true');
+
+          const filter = button.getAttribute('data-filter');
+          galleryItems.forEach(item => {
+            if(filter === 'all' || item.classList.contains(filter)) {
+              item.style.display = 'block';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
+
